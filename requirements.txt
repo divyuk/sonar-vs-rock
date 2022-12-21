@@ -1,2 +1,6 @@
+dotenv
+pandas
+sklearn
 from-root
+pymongo
 -e .

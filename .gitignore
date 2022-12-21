@@ -127,3 +127,9 @@ dmypy.json
 
 # Pyre type checker
 .pyre/
+
+
+artifact
+logs
+sonar.all-data.csv
+del.py
