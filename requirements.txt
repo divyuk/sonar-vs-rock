@@ -1,6 +1,8 @@
+certifi
 python-dotenv
 pandas
 scikit-learn
 from-root
 pymongo
+PyYAML
 -e .
