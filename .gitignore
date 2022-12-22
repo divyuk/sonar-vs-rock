@@ -133,3 +133,4 @@ artifact
 logs
 sonar.all-data.csv
 del.py
+checker.py
