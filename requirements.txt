@@ -1,6 +1,6 @@
-dotenv
+python-dotenv
 pandas
-sklearn
+scikit-learn
 from-root
 pymongo
 -e .

@@ -131,6 +131,6 @@ dmypy.json
 
 artifact
 logs
-sonar.all-data.csv
+sonar-data.csv
 del.py
 checker.py
