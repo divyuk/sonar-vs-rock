@@ -1,6 +1,7 @@
 from sonar.custom_exceptions import SonarException
 from sonar.data_access.sonar_data import SonarData
 from sonar.entity.config_entity import DataIngestionConfig, TrainingPipelineConfig
+from sonar.entity.artifact_entity import DataIngestionArtifact
 from sonar.constant.database import COLLECTION_NAME
 from sonar.logger import logging
 import pandas as pd
@@ -47,16 +48,14 @@ class DataIngestion:
         except Exception as e:
             raise SonarException(e,sys)
     
-    def initate_data_ingestion(self):
+    def initate_data_ingestion(self)->DataIngestionArtifact:
         try:
             dataframe = self.export_data_into_feature_store()
             self.split_data_as_train_test(dataframe=dataframe)
             logging.info("Done splitting train test")
+            data_ingestion_artifact = DataIngestionArtifact(trained_file_path=self.data_ingestion_config.training_file_path,
+            test_file_path=self.data_ingestion_config.testing_file_path)
+            return data_ingestion_artifact
         except Exception as e:
             logging.error(f"Error raised")
             raise SonarException(e,sys)
-
-zero = TrainingPipelineConfig()
-a= DataIngestionConfig(zero)
-d = DataIngestion(a)
-d.initate_data_ingestion()
