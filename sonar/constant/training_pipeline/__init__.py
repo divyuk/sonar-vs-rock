@@ -7,6 +7,7 @@ SCHEMA_FILE_PATH = os.path.join("config", "schema.yaml")
 SCHEMA_DROP_COLS = "drop_columns"
 TRAIN_FILE_NAME: str = "train.csv"
 TEST_FILE_NAME: str = "test.csv"
+PREPROCSSING_OBJECT_FILE_NAME = "preprocessing.pkl"
 
 """
 Data Ingestion related constant start with DATA_INGESTION VAR NAME
