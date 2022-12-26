@@ -5,4 +5,5 @@ scikit-learn
 from-root
 pymongo
 PyYAML
+dill
 -e .
