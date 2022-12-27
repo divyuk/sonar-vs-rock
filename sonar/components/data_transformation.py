@@ -3,6 +3,7 @@ from sonar.entity.artifact_entity import DataTransformationArtifact,DataValidati
 from sonar.entity.config_entity import DataTransformationConfig
 from sonar.logger import logging
 from sklearn.preprocessing import RobustScaler
+from sklearn.decomposition import PCA
 from sklearn.pipeline import Pipeline
 from sonar.constant.training_pipeline import TARGET_COLUMN
 from sonar.ml.model.estimator import TargetValueMapping
@@ -27,9 +28,11 @@ class DataTransformation:
     def get_data_transformer_object(cls)->Pipeline:
         try:
             robust_scaler = RobustScaler()
+            pca = PCA(n_components=20,random_state=42)
             preprocessor = Pipeline(
                 steps=[
-                    ("RobustScaler", robust_scaler) #keep every feature in same range and handle outlier
+                    ("RobustScaler", robust_scaler), #keep every feature in same range and handle outlier
+                    ("PCA" , pca)
                     ]
             )
             return preprocessor 
