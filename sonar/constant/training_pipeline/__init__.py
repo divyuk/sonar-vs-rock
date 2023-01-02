@@ -49,3 +49,10 @@ MODEL_TRAINER_TRAINED_MODEL_DIR: str = "trained_model"
 MODEL_TRAINER_TRAINED_MODEL_NAME: str = "model.pkl"  # Saving the model
 MODEL_TRAINER_EXPECTED_SCORE: float = 0.6  # 60% accurracy
 MODEL_TRAINER_OVER_FIITING_UNDER_FITTING_THRESHOLD: float = 0.05
+
+"""
+Model Evaluation ralated constant start with MODE TRAINER VAR NAME
+"""
+MODEL_EVALUATION_DIR_NAME: str = "model_evaluation"
+MODEL_EVALUATION_CHANGED_THRESHOLD_SCORE: float = 0.02  # 2% change in accuracy then only we will except the model
+MODEL_EVALUATION_REPORT_NAME= "report.yaml"
