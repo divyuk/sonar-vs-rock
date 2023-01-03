@@ -1,10 +1,11 @@
-from sonar.entity.config_entity import TrainingPipelineConfig, DataIngestionConfig, DataValidationConfig, DataTransformationConfig, ModelTrainerConfig, ModelEvaluationConfig
-from sonar.entity.artifact_entity import DataIngestionArtifact, DataValidationArtifact, DataTransformationArtifact, ModelTrainerArtifact, ModelEvaluationArtifact
+from sonar.entity.config_entity import TrainingPipelineConfig, DataIngestionConfig, DataValidationConfig, DataTransformationConfig, ModelTrainerConfig, ModelEvaluationConfig, ModelPusherConfig
+from sonar.entity.artifact_entity import DataIngestionArtifact, DataValidationArtifact, DataTransformationArtifact, ModelTrainerArtifact, ModelEvaluationArtifact, ModelPusherArtifact
 from sonar.components.data_ingestion import DataIngestion
 from sonar .components.data_validation import DataValidation
 from sonar.components.data_transformation import DataTransformation
 from sonar.components.model_trainer import ModelTrainer
 from sonar.components.model_evaluation import ModelEvaluation
+from sonar.components.model_pusher import ModelPusher
 from sonar.custom_exceptions import SonarException
 from sonar.logger import logging
 import sys
@@ -65,6 +66,15 @@ class TrainPipeline:
         except Exception as e:
             raise SonarException(e,sys)
     
+    def start_model_pusher(self,model_eval_artifact:ModelEvaluationArtifact):
+        try:
+            model_pusher_config = ModelPusherConfig(training_pipeline_config=self.training_pipeline_config)
+            model_pusher = ModelPusher(model_pusher_config, model_eval_artifact)
+            model_pusher_artifact = model_pusher.initiate_model_pusher()
+            return model_pusher_artifact
+        except  Exception as e:
+            raise  SonarException(e,sys)
+    
     def run_pipeline(self):
         try:
             TrainPipeline.is_pipeline_running = True
@@ -75,6 +85,7 @@ class TrainPipeline:
             model_eval_artifact:ModelEvaluationArtifact = self.start_model_evaluation(data_validation_artifact, model_trainer_artifact)
             if not model_eval_artifact.is_model_accepted:
                 raise Exception("Trained model is not better than the best model")
+            model_pusher_artifact:ModelPusherArtifact = self.start_model_pusher(model_eval_artifact)
             TrainPipeline.is_pipeline_running=False
         except Exception as e:
             TrainPipeline.is_pipeline_running=False
