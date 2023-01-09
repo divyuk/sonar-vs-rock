@@ -23,6 +23,7 @@ class ModelEvaluation:
     def initiate_model_evaluation(self):
         try:
             logging.info("Reading the train and test file path from data valaidation artifact")
+            logging.info("Starting...")
             valid_train_file_path = self.data_validation_artifact.valid_train_file_path
             valid_test_file_path = self.data_validation_artifact.valid_test_file_path
             logging.info("Reading the dataframe")

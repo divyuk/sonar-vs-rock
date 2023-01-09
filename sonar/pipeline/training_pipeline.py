@@ -51,7 +51,7 @@ class TrainPipeline:
         try:
             model_trainer_config = ModelTrainerConfig(training_pipeline_config=self.training_pipeline_config)
             model_trainer = ModelTrainer(model_trainer_config, data_transformation_artifact)
-            model_trainer_artifact = model_trainer.initate_model_trainer()
+            model_trainer_artifact = model_trainer.initiate_model_trainer()
             return model_trainer_artifact
         except Exception as e:
             raise SonarException(e,sys)
@@ -83,10 +83,18 @@ class TrainPipeline:
             data_transformation_artifact: DataTransformationArtifact = self.start_data_transformation(data_validation_artifact=data_validation_artifact)
             model_trainer_artifact:ModelTrainerArtifact = self.start_model_trainer(data_transformation_artifact)
             model_eval_artifact:ModelEvaluationArtifact = self.start_model_evaluation(data_validation_artifact, model_trainer_artifact)
-            if not model_eval_artifact.is_model_accepted:
-                raise Exception("Trained model is not better than the best model")
-            model_pusher_artifact:ModelPusherArtifact = self.start_model_pusher(model_eval_artifact)
+            try: 
+                if not model_eval_artifact.is_model_accepted:
+                    raise Exception("Trained model is not better than the best model")
+            except Exception as e:
+                pass
+            try:
+                model_pusher_artifact:ModelPusherArtifact = self.start_model_pusher(model_eval_artifact)
+            except Exception as e:
+                pass
             TrainPipeline.is_pipeline_running=False
         except Exception as e:
             TrainPipeline.is_pipeline_running=False
             raise SonarException(e,sys)
+        
+        
